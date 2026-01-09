@@ -20,11 +20,11 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<PackageReference Include="ClassIsland.PluginSdk" Version="1.7.103-dev-v2">
+		<PackageReference Include="ClassIsland.PluginSdk" Version="2.0.0.1">
 			<ExcludeAssets>runtime; native</ExcludeAssets>
 		</PackageReference>
-		<PackageReference Include="LibreHardwareMonitorLib" Version="0.9.4" />
-		<PackageReference Include="System.Diagnostics.PerformanceCounter" Version="9.0.7" />
+		<PackageReference Include="LibreHardwareMonitorLib" Version="0.9.5" />
+		<PackageReference Include="System.Diagnostics.PerformanceCounter" Version="10.0.1" />
 	</ItemGroup>
 
 	<ItemGroup>
