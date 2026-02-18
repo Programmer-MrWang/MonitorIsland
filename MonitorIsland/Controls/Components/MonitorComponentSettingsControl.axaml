@@ -7,11 +7,10 @@
     xmlns:converters="clr-namespace:MonitorIsland.Converters"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:local="clr-namespace:MonitorIsland.Controls.Components"
-    xmlns:materialdesign="http://materialdesigninxaml.net/winfx/xaml/themes"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:models="clr-namespace:MonitorIsland.Models"
+    xmlns:attributes="clr-namespace:MonitorIsland.Attributes"
     xmlns:settings="clr-namespace:MonitorIsland.Models.ComponentSettings"
-    xmlns:sys="clr-namespace:System;assembly=System.Runtime"
     d:DesignHeight="450"
     d:DesignWidth="800"
     x:TypeArguments="settings:MonitorComponentSettings"
@@ -19,10 +18,6 @@
     mc:Ignorable="d">
     <ci:ComponentBase.Resources>
         <converters:EnumDescriptionConverter x:Key="EnumDescriptionConverter" />
-        <converters:MonitorTypeToDiskVisibilityConverter x:Key="DiskVisibilityConverter" />
-        <converters:MonitorTypeToUnitVisibilityConverter x:Key="UnitVisibilityConverter" />
-        <converters:MonitorTypeToCpuTemperatureSensorVisibilityConverter x:Key="CpuTemperatureSensorVisibilityConverter" />
-        <converters:DisplayUnitToStringConverter x:Key="DisplayUnitConverter" />
     </ci:ComponentBase.Resources>
     <Grid DataContext="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=local:MonitorComponentSettingsControl}}">
         <ScrollViewer>
@@ -34,47 +29,12 @@
                     IconSource="{ci:FluentIconSource &#xEE21;}">
                     <controls:SettingsExpander.Footer>
                         <ComboBox
-                            MinWidth="110"
-                            ItemsSource="{Binding MonitorOptions}"
-                            SelectedItem="{Binding Settings.MonitorType, Mode=TwoWay}">
+                            MinWidth="150"
+                            ItemsSource="{Binding MonitorProviders}"
+                            SelectedValue="{Binding Settings.SelectedProvider, Mode=TwoWay}">
                             <ComboBox.ItemTemplate>
-                                <DataTemplate DataType="{x:Type models:MonitorOption}">
-                                    <TextBlock Text="{Binding Converter={StaticResource EnumDescriptionConverter}}" />
-                                </DataTemplate>
-                            </ComboBox.ItemTemplate>
-                        </ComboBox>
-                    </controls:SettingsExpander.Footer>
-                </controls:SettingsExpander>
-
-                <controls:SettingsExpander
-                    Header="磁盘盘符"
-                    Description="选择要监控的磁盘盘符"
-                    Margin="0,0,0,6"
-                    IconSource="{ci:FluentIconSource &#xE610;}"
-                    IsVisible="{Binding Settings.MonitorType, Converter={StaticResource DiskVisibilityConverter}}">
-                    <controls:SettingsExpander.Footer>
-                        <ComboBox
-                            MinWidth="80"
-                            ItemsSource="{Binding AvailableDriveNames}"
-                            SelectedItem="{Binding Settings.DriveName, Mode=TwoWay}" />
-                    </controls:SettingsExpander.Footer>
-                </controls:SettingsExpander>
-
-                <controls:SettingsExpander
-                    Header="CPU 温度传感器"
-                    Description="选择要监控的 CPU 温度传感器"
-                    Margin="0,0,0,6"
-                    IconSource="{ci:FluentIconSource &#xE304;}"
-                    IsVisible="{Binding Settings.MonitorType, Converter={StaticResource CpuTemperatureSensorVisibilityConverter}}">
-                    <controls:SettingsExpander.Footer>
-                        <ComboBox
-                            MinWidth="200"
-                            ItemsSource="{Binding Settings.AvailableCpuTemperatureSensors}"
-                            SelectedValue="{Binding Settings.SelectedCpuTemperatureSensorId, Mode=TwoWay}"
-                            SelectedValueBinding="{Binding Id}">
-                            <ComboBox.ItemTemplate>
-                                <DataTemplate DataType="{x:Type models:CpuTemperatureSensorInfo}">
-                                    <TextBlock Text="{Binding DisplayText}" />
+                                <DataTemplate DataType="{x:Type models:MonitorProvider}">
+                                    <TextBlock Text="{Binding Name}" />
                                 </DataTemplate>
                             </ComboBox.ItemTemplate>
                         </ComboBox>
@@ -83,11 +43,10 @@
 
                 <controls:SettingsExpander
                     Header="显示设置"
-                    Description="更改前缀等设置"
+                    Description="更改前缀和单位等设置"
                     Margin="0,0,0,6"
                     IconSource="{ci:FluentIconSource &#xF17E;}"
-                    IsExpanded="True"
-                    TextBlock.Foreground="{DynamicResource MaterialDesignBody}">
+                    IsExpanded="True">
 
                     <controls:SettingsExpanderItem
                         Content="前缀"
@@ -97,11 +56,11 @@
                             <TextBox MinWidth="150" Text="{Binding Settings.DisplayPrefix, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" />
                         </controls:SettingsExpanderItem.Footer>
                     </controls:SettingsExpanderItem>
+
                     <controls:SettingsExpanderItem
                         Content="单位"
-                        Description="选择显示单位"
-                        IconSource="{ci:FluentIconSource &#xEEAF;}"
-                        IsVisible="{Binding Settings.MonitorType, Converter={StaticResource UnitVisibilityConverter}}">
+                        Description="选择单位"
+                        IconSource="{ci:FluentIconSource &#xEEAF;}">
                         <controls:SettingsExpanderItem.Footer>
                             <ComboBox
                                 MinWidth="80"
@@ -109,7 +68,7 @@
                                 SelectedItem="{Binding Settings.SelectedUnit, Mode=TwoWay}">
                                 <ComboBox.ItemTemplate>
                                     <DataTemplate DataType="{x:Type models:DisplayUnit}">
-                                        <TextBlock Text="{Binding Converter={StaticResource DisplayUnitConverter}}" />
+                                        <TextBlock Text="{Binding Converter={StaticResource EnumDescriptionConverter}}" />
                                     </DataTemplate>
                                 </ComboBox.ItemTemplate>
                             </ComboBox>
@@ -131,6 +90,16 @@
                             <Label>ms</Label>
                         </StackPanel>
                     </controls:SettingsExpander.Footer>
+                </controls:SettingsExpander>
+
+                <controls:SettingsExpander 
+                Header="监控项特殊设置"
+                Margin="0,0,0,6"
+                    IconSource="{ci:FluentIconSource &#xEE21;}"
+                    IsVisible="{Binding Settings.ShowProviderSettingsControl}">
+					<controls:SettingsExpanderItem>
+						<ContentPresenter Name="ProviderSettingsControl" />
+                    </controls:SettingsExpanderItem>
                 </controls:SettingsExpander>
             </StackPanel>
         </ScrollViewer>

@@ -1,0 +1,37 @@
+﻿using CommunityToolkit.Mvvm.ComponentModel;
+using System.Text.Json.Serialization;
+
+namespace MonitorIsland.Models
+{
+    /// <summary>
+    /// 代表一个监控项。
+    /// </summary>
+    public partial class MonitorProvider : ObservableObject
+    {
+        /// <summary>
+        /// 监控项 ID。
+        /// </summary>
+        [ObservableProperty]
+        private string _id = string.Empty;
+
+        /// <summary>
+        /// 监控项名称
+        /// </summary>
+        [ObservableProperty]
+        private string _name = string.Empty;
+
+        /// <summary>
+        /// 当前选择的显示单位
+        /// </summary>
+        [ObservableProperty]
+        [property: JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+        private DisplayUnit? _selectedUnit;
+
+        /// <summary>
+        /// 监控项设置。
+        /// </summary>
+        [ObservableProperty]
+        [property: JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+        private object? _settings;
+    }
+}
