@@ -31,7 +31,8 @@
                         <ComboBox
                             MinWidth="150"
                             ItemsSource="{Binding MonitorProviders}"
-                            SelectedValue="{Binding Settings.SelectedProvider, Mode=TwoWay}">
+							SelectedValueBinding="{Binding Id}"
+                            SelectedValue="{Binding Settings.SelectedProviderId, Mode=TwoWay}">
                             <ComboBox.ItemTemplate>
                                 <DataTemplate DataType="{x:Type models:MonitorProvider}">
                                     <TextBlock Text="{Binding Name}" />

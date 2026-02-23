@@ -2,6 +2,7 @@
 using ClassIsland.Core.Abstractions.Controls;
 using ClassIsland.Core.Attributes;
 using Microsoft.Extensions.Logging;
+using MonitorIsland.Abstractions;
 using MonitorIsland.Interfaces;
 using MonitorIsland.Models;
 using MonitorIsland.Models.ComponentSettings;
@@ -61,7 +62,11 @@ namespace MonitorIsland.Controls.Components
         {
             _timer.Interval = TimeSpan.FromMilliseconds(Settings.RefreshInterval);
             Settings.PropertyChanged += OnSettingsPropertyChanged;
-
+            if (Settings.SelectedProvider is not null)
+            {
+                ChangeProvider();
+                Settings.SelectedProviderId = Settings.SelectedProvider.Id;
+            }
             _timer.Start();
         }
 
@@ -78,7 +83,45 @@ namespace MonitorIsland.Controls.Components
                 case nameof(Settings.RefreshInterval):
                     _timer.Interval = TimeSpan.FromMilliseconds(Settings.RefreshInterval);
                     break;
+                case nameof(Settings.SelectedProvider):
+                    ChangeProvider();
+                    break;
             }
+        }
+
+        private void ChangeProvider()
+        {
+            if (Settings.SelectedProvider is null)
+            {
+                return;
+            }
+
+            var selected = Settings.SelectedProvider;
+
+            var providerInstance = MonitorProviderBase.GetInstance(selected);
+            if (providerInstance is null)
+            {
+                return;
+            }
+            var baseType = providerInstance.GetType().BaseType;
+            if (baseType is not null
+                && baseType.IsGenericType
+                && baseType.GetGenericTypeDefinition() == typeof(MonitorProviderBase<>))
+            {
+                var settingsType = baseType.GetGenericArguments()[0];
+                var settings = selected.Settings;
+                if (settings?.GetType() != settingsType)
+                {
+                    settings = Activator.CreateInstance(settingsType);
+                }
+                selected.Settings = settings;
+            }
+            var availableUnits = IMonitorService.MonitorProviderInfos[selected.Id].AvailableUnits;
+            providerInstance.SelectedUnit = selected.SelectedUnit;
+            Settings.SelectedProviderBase = providerInstance;
+            Settings.AvailableUnits = availableUnits?.ToList() ?? [];
+            Settings.SelectedUnit = selected.SelectedUnit;
+            Settings.DisplayPrefix = providerInstance.DefaultPrefix;
         }
     }
 }

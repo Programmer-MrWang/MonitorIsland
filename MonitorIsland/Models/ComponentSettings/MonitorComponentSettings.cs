@@ -17,7 +17,12 @@ namespace MonitorIsland.Models.ComponentSettings
         private MonitorProvider? _selectedProvider = null;
 
         [ObservableProperty]
+        [property: JsonIgnore]
         private MonitorProviderBase? _selectedProviderBase = null;
+
+        [ObservableProperty]
+        [property: JsonIgnore]
+        private string? _selectedProviderId;
 
         [ObservableProperty]
         private DisplayUnit? _selectedUnit;
@@ -45,9 +50,10 @@ namespace MonitorIsland.Models.ComponentSettings
 
         partial void OnSelectedUnitChanged(DisplayUnit? value)
         {
-            if (SelectedProviderBase != null)
+            if (SelectedProvider is not null && SelectedProviderBase is not null)
             {
                 SelectedProviderBase.SelectedUnit = value;
+                SelectedProvider.SelectedUnit = value;
             }
         }
     }

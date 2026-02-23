@@ -24,7 +24,6 @@ namespace MonitorIsland.Models
         /// 当前选择的显示单位
         /// </summary>
         [ObservableProperty]
-        [property: JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
         private DisplayUnit? _selectedUnit;
 
         /// <summary>
