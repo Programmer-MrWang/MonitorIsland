@@ -4,7 +4,6 @@ using MonitorIsland.Abstractions;
 using MonitorIsland.Interfaces;
 using MonitorIsland.Models;
 using MonitorIsland.Models.ComponentSettings;
-using System.Collections.ObjectModel;
 using System.ComponentModel;
 using RoutedEventArgs = Avalonia.Interactivity.RoutedEventArgs;
 
