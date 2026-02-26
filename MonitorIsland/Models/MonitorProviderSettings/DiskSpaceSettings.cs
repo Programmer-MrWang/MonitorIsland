@@ -1,7 +1,7 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using System.Collections.ObjectModel;
 
-namespace MonitorIsland.Models.MonitorProviders
+namespace MonitorIsland.Models.MonitorProviderSettings
 {
     public partial class DiskSpaceSettings : ObservableObject
     {

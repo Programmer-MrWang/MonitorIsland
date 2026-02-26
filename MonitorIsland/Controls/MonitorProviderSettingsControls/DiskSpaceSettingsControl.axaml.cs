@@ -1,6 +1,6 @@
 using Microsoft.Extensions.Logging;
 using MonitorIsland.Abstractions;
-using MonitorIsland.Models.MonitorProviders;
+using MonitorIsland.Models.MonitorProviderSettings;
 
 namespace MonitorIsland.Controls.MonitorProviderSettingsControls;
 

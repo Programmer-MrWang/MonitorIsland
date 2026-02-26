@@ -2,7 +2,7 @@ using ByteSizeLib;
 using MonitorIsland.Abstractions;
 using MonitorIsland.Attributes;
 using MonitorIsland.Models;
-using MonitorIsland.Models.MonitorProviders;
+using MonitorIsland.Models.MonitorProviderSettings;
 
 namespace MonitorIsland.Providers
 {
