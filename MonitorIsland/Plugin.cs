@@ -25,5 +25,6 @@ public class Plugin : PluginBase
         services.AddMonitorProvider<CpuUsageProvider>();
         services.AddMonitorProvider<MemoryUsageRateProvider>();
         services.AddMonitorProvider<DiskSpaceProvider, DiskSpaceSettingsControl>();
+        services.AddMonitorProvider<ClassIslandMemoryUsageProvider>();
     }
 }
