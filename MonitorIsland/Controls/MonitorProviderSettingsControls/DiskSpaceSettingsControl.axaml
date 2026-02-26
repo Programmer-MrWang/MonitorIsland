@@ -18,7 +18,7 @@
         <controls:SettingsExpander
             Header="磁盘盘符"
             Description="选择要监控的磁盘的盘符"
-            IconSource="{ci:FluentIconSource &#xE610;}">
+            IconSource="{ci:FluentIconSource &#xE611;}">
             <controls:SettingsExpander.Footer>
                 <ComboBox
                     MinWidth="80"
