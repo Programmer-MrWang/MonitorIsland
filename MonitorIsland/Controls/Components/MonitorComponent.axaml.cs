@@ -54,8 +54,15 @@ namespace MonitorIsland.Controls.Components
                 Logger.LogWarning("没有选择监控提供方");
                 return;
             }
-            var value = await MonitorService.GetDataFromProviderAsync(Settings.SelectedProviderBase);
-            Settings.DisplayData = value ?? "N/A";
+            var value = await MonitorService.GetDataFromProviderAsync(Settings.SelectedProviderBase) ?? "N/A";
+            if (double.TryParse(value, out var number))
+            {
+                Settings.DisplayData = Math.Round(number, Settings.DecimalPlaces, MidpointRounding.AwayFromZero).ToString();
+            }
+            else
+            {
+                Settings.DisplayData = value;
+            }
         }
 
         private void MonitorComponent_OnLoaded(object? sender, RoutedEventArgs routedEventArgs)

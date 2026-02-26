@@ -31,22 +31,13 @@ namespace MonitorIsland.Models.ComponentSettings
         private List<DisplayUnit> _availableUnits = [];
 
         [ObservableProperty]
+        private int _decimalPlaces = 2;
+
+        [ObservableProperty]
         private bool _showProviderSettingsControl = false;
 
+        [ObservableProperty]
         private int _refreshInterval = 1000;
-        /// <summary>
-        /// 刷新间隔（毫秒）
-        /// </summary>
-        public int RefreshInterval
-        {
-            get => _refreshInterval;
-            set
-            {
-                if (value == _refreshInterval) return;
-                _refreshInterval = Math.Max(250, value);
-                OnPropertyChanged();
-            }
-        }
 
         partial void OnSelectedUnitChanged(DisplayUnit? value)
         {

@@ -76,6 +76,19 @@
                             </ComboBox>
                         </controls:SettingsExpanderItem.Footer>
                     </controls:SettingsExpanderItem>
+
+                    <controls:SettingsExpanderItem
+                        Content="保留位数"
+                        Description="数据需要保留的小数位数，四舍五入"
+                        IconSource="{ci:FluentIconSource &#xE619;}">
+                        <controls:SettingsExpanderItem.Footer>
+                            <NumericUpDown
+                                Increment="1"
+                                Minimum="0"
+                                Maximum="15"
+                                Value="{Binding Settings.DecimalPlaces, Mode=TwoWay}" />
+                        </controls:SettingsExpanderItem.Footer>
+                    </controls:SettingsExpanderItem>
                 </controls:SettingsExpander>
 
                 <controls:SettingsExpander
