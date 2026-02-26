@@ -7,7 +7,7 @@ using System.Diagnostics;
 namespace MonitorIsland.Providers
 {
     [MonitorProviderInfo(
-        "monitorisland.memoryusagerateprovider",
+        "monitorisland.memoryusagerate",
         "内存使用率",
         "显示内存使用率",
         [DisplayUnit.Percent])]

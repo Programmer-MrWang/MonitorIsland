@@ -10,7 +10,7 @@ namespace MonitorIsland.Providers
         "CPU 使用率",
         "监控 CPU 的使用率",
         [DisplayUnit.Percent])]
-    internal class CpuUsageProvider() : MonitorProviderBase
+    public class CpuUsageProvider : MonitorProviderBase
     {
         public override string DefaultPrefix => "CPU使用率：";
 

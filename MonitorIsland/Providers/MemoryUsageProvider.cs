@@ -8,11 +8,11 @@ using System.Diagnostics;
 namespace MonitorIsland.Providers
 {
     [MonitorProviderInfo(
-        "monitorisland.memoryusageprovider",
+        "monitorisland.memoryusage",
         "内存使用量",
-        "显示已使用的内存量",
-        [DisplayUnit.MB, DisplayUnit.GB, DisplayUnit.TB])]
-    internal class MemoryUsageProvider() : MonitorProviderBase
+        "显示已经使用的内存量",
+        [DisplayUnit.GB, DisplayUnit.TB, DisplayUnit.MB])]
+    public class MemoryUsageProvider() : MonitorProviderBase
     {
         public override string DefaultPrefix => "内存使用量：";
 

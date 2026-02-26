@@ -6,13 +6,10 @@ using MonitorIsland.Models.MonitorProviderSettings;
 
 namespace MonitorIsland.Providers
 {
-    /// <summary>
-    /// 磁盘剩余空间监控提供方
-    /// </summary>
     [MonitorProviderInfo(
         "monitorisland.diskspace",
-        "磁盘剩余空间",
-        "监控磁盘剩余空间",
+        "驱动器剩余空间",
+        "监控驱动器的剩余空间",
         [DisplayUnit.GB, DisplayUnit.TB, DisplayUnit.MB])]
     public class DiskSpaceProvider : MonitorProviderBase<DiskSpaceSettings>
     {
