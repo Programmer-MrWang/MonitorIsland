@@ -21,6 +21,10 @@ public partial class DiskSpaceSettingsControl : MonitorProviderControlBase<DiskS
 
     private void LoadAvailableDrives()
     {
+        if(Settings.AvailableDriveNames.Count > 0)
+        {
+            return;
+        }
         Settings.AvailableDriveNames.Clear();
         try
         {
