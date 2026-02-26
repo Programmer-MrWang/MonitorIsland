@@ -15,10 +15,17 @@
     Loaded="MonitorProviderControlBase_Loaded"
     mc:Ignorable="d">
     <Panel DataContext="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType=local:DiskSpaceSettingsControl}}">
-        <ComboBox
-            MinWidth="80"
-            ItemsSource="{Binding Settings.AvailableDriveNames}"
-            SelectedItem="{Binding Settings.DriveName, Mode=TwoWay}" />
+        <controls:SettingsExpander
+            Header="磁盘盘符"
+            Description="选择要监控的磁盘的盘符"
+            IconSource="{ci:FluentIconSource &#xE610;}">
+            <controls:SettingsExpander.Footer>
+                <ComboBox
+                    MinWidth="80"
+                    ItemsSource="{Binding Settings.AvailableDriveNames}"
+                    SelectedValue="{Binding Settings.DriveName, Mode=TwoWay}" />
+            </controls:SettingsExpander.Footer>
+        </controls:SettingsExpander>
     </Panel>
 
 </abstractions:MonitorProviderControlBase>

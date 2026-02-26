@@ -5,6 +5,7 @@
     xmlns:attributes="clr-namespace:MonitorIsland.Attributes"
     xmlns:ci="http://classisland.tech/schemas/xaml/core"
     xmlns:controls="clr-namespace:FluentAvalonia.UI.Controls;assembly=FluentAvalonia"
+    xmlns:controls1="clr-namespace:ClassIsland.Core.Controls;assembly=ClassIsland.Core"
     xmlns:converters="clr-namespace:MonitorIsland.Converters"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:local="clr-namespace:MonitorIsland.Controls.Components"
@@ -93,15 +94,13 @@
                     </controls:SettingsExpander.Footer>
                 </controls:SettingsExpander>
 
-                <controls:SettingsExpander
-                    Margin="0,0,0,6"
-                    Header="监控项特殊设置"
-                    IconSource="{ci:FluentIconSource &#xEE21;}"
-                    IsVisible="{Binding Settings.ShowProviderSettingsControl}">
-                    <controls:SettingsExpanderItem>
-                        <ContentPresenter Name="ProviderSettingsControl" />
-                    </controls:SettingsExpanderItem>
-                </controls:SettingsExpander>
+                <StackPanel IsVisible="{Binding Settings.ShowProviderSettingsControl}">
+                    <Separator Margin="0 12 0 4" />
+                    <controls1:IconText Glyph="&#xEE21;" Text="监控项特殊设置" Margin="0 4 0 8" />
+
+                    <ContentPresenter Name="ProviderSettingsControl" />
+                </StackPanel>
+
             </StackPanel>
         </ScrollViewer>
     </Grid>
