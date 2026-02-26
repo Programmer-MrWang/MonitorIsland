@@ -14,6 +14,9 @@ namespace MonitorIsland.Models.ComponentSettings
         private string _displayPrefix = string.Empty;
 
         [ObservableProperty]
+        private bool _showUnit = true;
+
+        [ObservableProperty]
         private MonitorProvider? _selectedProvider = null;
 
         [ObservableProperty]

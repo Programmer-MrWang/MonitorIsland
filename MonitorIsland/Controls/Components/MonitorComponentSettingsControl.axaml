@@ -24,9 +24,9 @@
         <ScrollViewer>
             <StackPanel>
                 <controls:SettingsExpander
-                    Margin="0,0,0,6"
-                    Description="选择要监控的东西"
                     Header="监控项目"
+                    Description="选择要监控的东西"
+                    Margin="0,0,0,6"
                     IconSource="{ci:FluentIconSource &#xEE21;}">
                     <controls:SettingsExpander.Footer>
                         <ComboBox
@@ -43,13 +43,31 @@
                     </controls:SettingsExpander.Footer>
                 </controls:SettingsExpander>
 
-                <controls:SettingsExpander
+                <controls:SettingsExpanderItem
+                    Content="单位"
+                    Description="选择单位"
                     Margin="0,0,0,6"
-                    Description="更改前缀和单位等设置"
+                    IconSource="{ci:FluentIconSource &#xEEAF;}">
+                    <controls:SettingsExpanderItem.Footer>
+                        <ComboBox
+                            MinWidth="80"
+                            ItemsSource="{Binding Settings.AvailableUnits}"
+                            SelectedItem="{Binding Settings.SelectedUnit, Mode=TwoWay}">
+                            <ComboBox.ItemTemplate>
+                                <DataTemplate DataType="{x:Type models:DisplayUnit}">
+                                    <TextBlock Text="{Binding Converter={StaticResource EnumDescriptionConverter}}" />
+                                </DataTemplate>
+                            </ComboBox.ItemTemplate>
+                        </ComboBox>
+                    </controls:SettingsExpanderItem.Footer>
+                </controls:SettingsExpanderItem>
+
+                <controls:SettingsExpander
                     Header="显示设置"
+                    Description="更改前缀和单位等设置"
+                    Margin="0,0,0,6"
                     IconSource="{ci:FluentIconSource &#xF17E;}"
                     IsExpanded="True">
-
                     <controls:SettingsExpanderItem
                         Content="前缀"
                         Description="显示在数据前面的提示文字"
@@ -58,25 +76,14 @@
                             <TextBox MinWidth="150" Text="{Binding Settings.DisplayPrefix, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" />
                         </controls:SettingsExpanderItem.Footer>
                     </controls:SettingsExpanderItem>
-
                     <controls:SettingsExpanderItem
-                        Content="单位"
-                        Description="选择单位"
+                        Content="显示单位"
+                        Description="是否在数据后面显示单位"
                         IconSource="{ci:FluentIconSource &#xEEAF;}">
                         <controls:SettingsExpanderItem.Footer>
-                            <ComboBox
-                                MinWidth="80"
-                                ItemsSource="{Binding Settings.AvailableUnits}"
-                                SelectedItem="{Binding Settings.SelectedUnit, Mode=TwoWay}">
-                                <ComboBox.ItemTemplate>
-                                    <DataTemplate DataType="{x:Type models:DisplayUnit}">
-                                        <TextBlock Text="{Binding Converter={StaticResource EnumDescriptionConverter}}" />
-                                    </DataTemplate>
-                                </ComboBox.ItemTemplate>
-                            </ComboBox>
+                            <ToggleSwitch IsChecked="{Binding Settings.ShowUnit, Mode=TwoWay}" />
                         </controls:SettingsExpanderItem.Footer>
                     </controls:SettingsExpanderItem>
-
                     <controls:SettingsExpanderItem
                         Content="保留位数"
                         Description="数据需要保留的小数位数，四舍五入"
@@ -84,17 +91,17 @@
                         <controls:SettingsExpanderItem.Footer>
                             <NumericUpDown
                                 Increment="1"
-                                Minimum="0"
                                 Maximum="15"
+                                Minimum="0"
                                 Value="{Binding Settings.DecimalPlaces, Mode=TwoWay}" />
                         </controls:SettingsExpanderItem.Footer>
                     </controls:SettingsExpanderItem>
                 </controls:SettingsExpander>
 
                 <controls:SettingsExpander
-                    Margin="0,0,0,6"
-                    Description="设置更新数值的频率（最低 250ms 刷新一次，默认 1000ms）"
                     Header="刷新间隔（ms）"
+                    Description="设置更新数值的频率（最低 250ms 刷新一次，默认 1000ms）"
+                    Margin="0,0,0,6"
                     IconSource="{ci:FluentIconSource &#xF361;}">
                     <controls:SettingsExpander.Footer>
                         <StackPanel Orientation="Horizontal">
@@ -108,8 +115,11 @@
                 </controls:SettingsExpander>
 
                 <StackPanel IsVisible="{Binding Settings.ShowProviderSettingsControl}">
-                    <Separator Margin="0 12 0 4" />
-                    <controls1:IconText Glyph="&#xEE21;" Text="监控项特殊设置" Margin="0 4 0 8" />
+                    <Separator Margin="0,12,0,4" />
+                    <controls1:IconText
+                        Margin="0,4,0,8"
+                        Glyph="&#xEE21;"
+                        Text="监控项特殊设置" />
 
                     <ContentPresenter Name="ProviderSettingsControl" />
                 </StackPanel>

@@ -3,6 +3,7 @@
     xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:ci="http://classisland.tech/schemas/xaml/core"
+    xmlns:converters="clr-namespace:MonitorIsland.Converters"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:local="clr-namespace:MonitorIsland.Controls.Components"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
@@ -13,10 +14,17 @@
     Loaded="MonitorComponent_OnLoaded"
     Unloaded="MonitorComponent_OnUnloaded"
     mc:Ignorable="d">
+    <ci:ComponentBase.Resources>
+        <converters:EnumDescriptionConverter x:Key="EnumDescriptionConverter" />
+    </ci:ComponentBase.Resources>
     <Grid DataContext="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType=local:MonitorComponent}}" TextElement.FontSize="{DynamicResource MainWindowBodyFontSize}">
         <StackPanel VerticalAlignment="Center" Orientation="Horizontal">
             <TextBlock Text="{Binding Settings.DisplayPrefix, Mode=OneWay}" />
             <TextBlock Text="{Binding Settings.DisplayData, Mode=OneWay}" />
+            <TextBlock
+                Margin="4,0,0,0"
+                IsVisible="{Binding Settings.ShowUnit}"
+                Text="{Binding Settings.SelectedUnit, Mode=OneWay, Converter={StaticResource EnumDescriptionConverter}}" />
         </StackPanel>
     </Grid>
 </ci:ComponentBase>
