@@ -79,7 +79,8 @@
 
 - 插件图标由 [<img src="https://github.com/LiPolymer.png" width="20" height="20"/>](https://github.com/LiPolymer)[@LiPolymer](https://github.com/LiPolymer) 提供😋😋
 - 本项目使用了以下的第三方库：
-  - [LibreHardwareMonitor](https://github.com/LibreHardwareMonitor/LibreHardwareMonitor) - 用于获取 CPU 温度
+  - [LibreHardwareMonitor](https://github.com/LibreHardwareMonitor/LibreHardwareMonitor)
+  - [ByteSize](https://github.com/omar/ByteSize)
 - 开发过程中使用了 Copilot 辅助
 
 ## 贡献者
