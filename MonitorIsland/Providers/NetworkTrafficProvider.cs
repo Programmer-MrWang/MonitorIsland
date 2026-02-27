@@ -23,55 +23,48 @@ namespace MonitorIsland.Providers
 
         public override string? GetData()
         {
-            try
+            var interfaceId = Settings.SelectedInterfaceId;
+            if (_networkInterface == null || _networkInterface.Id != interfaceId)
             {
-                var interfaceId = Settings.SelectedInterfaceId;
-                if (_networkInterface == null || _networkInterface.Id != interfaceId)
-                {
-                    InitializeInterface(interfaceId);
-                }
+                InitializeInterface(interfaceId);
+            }
 
-                if (_networkInterface == null || !IsInterfaceValid(_networkInterface))
-                {
-                    return null;
-                }
+            if (_networkInterface == null || !IsInterfaceValid(_networkInterface))
+            {
+                return null;
+            }
 
-                var stats = _networkInterface.GetIPv4Statistics();
-                var currentBytesSent = stats.BytesSent;
-                var currentBytesReceived = stats.BytesReceived;
-                var currentTime = DateTime.Now;
+            var stats = _networkInterface.GetIPv4Statistics();
+            var currentBytesSent = stats.BytesSent;
+            var currentBytesReceived = stats.BytesReceived;
+            var currentTime = DateTime.Now;
 
-                var timeSpan = (currentTime - _lastTime).TotalSeconds;
-                if (timeSpan > 0 && _lastTime != default)
-                {
-                    var sentSpeedBps = (currentBytesSent - _lastBytesSent) / timeSpan; // bytes per second
-                    var receivedSpeedBps = (currentBytesReceived - _lastBytesReceived) / timeSpan;
-
-                    _lastBytesSent = currentBytesSent;
-                    _lastBytesReceived = currentBytesReceived;
-                    _lastTime = currentTime;
-
-                    var unit = SelectedUnit ?? DisplayUnit.MBps;
-                    var (sentValue, receivedValue) = ConvertSpeed(sentSpeedBps, receivedSpeedBps, unit);
-
-                    return $"↑{sentValue} ↓{receivedValue}";
-                }
+            var timeSpan = (currentTime - _lastTime).TotalSeconds;
+            if (timeSpan > 0 && _lastTime != default)
+            {
+                var sentSpeedBps = (currentBytesSent - _lastBytesSent) / timeSpan;
+                var receivedSpeedBps = (currentBytesReceived - _lastBytesReceived) / timeSpan;
 
                 _lastBytesSent = currentBytesSent;
                 _lastBytesReceived = currentBytesReceived;
                 _lastTime = currentTime;
 
-                return "↑0 ↓0";
+                var unit = SelectedUnit ?? DisplayUnit.MBps;
+                var (sentValue, receivedValue) = ConvertSpeed(sentSpeedBps, receivedSpeedBps, unit);
+
+                return $"↑{sentValue} ↓{receivedValue}";
             }
-            catch (Exception)
-            {
-                return "N/A";
-            }
+
+            _lastBytesSent = currentBytesSent;
+            _lastBytesReceived = currentBytesReceived;
+            _lastTime = currentTime;
+
+            return "↑0 ↓0";
         }
 
         private (string sent, string received) ConvertSpeed(double bytesSentPerSec, double bytesReceivedPerSec, DisplayUnit unit)
         {
-            var sent = bytesSentPerSec * 8; // convert to bits
+            var sent = bytesSentPerSec * 8;
             var received = bytesReceivedPerSec * 8;
 
             double sentValue, receivedValue;
