@@ -33,7 +33,7 @@ namespace MonitorIsland.Providers
 
                 if (_networkInterface == null || !IsInterfaceValid(_networkInterface))
                 {
-                    return "N/A";
+                    return null;
                 }
 
                 var stats = _networkInterface.GetIPv4Statistics();
